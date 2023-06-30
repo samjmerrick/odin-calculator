@@ -1,5 +1,5 @@
-let currentNumber = "";
-let prevNumber = "";
+let currentNumber = null;
+let prevNumber = null;
 let operator = "";
 
 const display = document.querySelector('.display');
@@ -9,8 +9,18 @@ const operandButtons = document.querySelectorAll('button.operand');
 numberButtons.forEach(btn => 
     btn.addEventListener("click", () => {
         updateNum(btn.innerText);
+        display.innerText = currentNumber;
     })
 );
+
+function updateNum(num){
+    if(currentNumber == null) {
+        currentNumber = Number(num);
+        return;
+    }
+    const newNum = currentNumber += num;
+    currentNumber = Number(newNum);
+}
 
 operandButtons.forEach(btn => 
     btn.addEventListener('click', () => {
@@ -20,7 +30,8 @@ operandButtons.forEach(btn =>
 )
 
 document.querySelector('button.clear').addEventListener("click", () => {
-    currentNumber = "";
+    currentNumber = null;
+    prevNumber = null;
     display.innerText = "0";
 });
 
@@ -28,42 +39,35 @@ document.querySelector('button.equals').addEventListener("click", () => {
     operate();
 })
 
-function updateNum(num){
-    currentNumber += num;
-    display.innerText = currentNumber;
-}
 
 function operate() {
 
-    if (operator == "") return;
+    if (operator == "" || currentNumber == null) return;
 
-    if(prevNumber == "") {
+    if(prevNumber == null) {
         prevNumber = currentNumber;
-        currentNumber = "";
+        currentNumber = null;
         return;
     }
 
-    let result;
-
-    switch (operator) {
-        case "x":
-            result = multiply(prevNumber, currentNumber);
-            break;
-        case "/":
-            result = divide(prevNumber, currentNumber);
-            break;
-        case "+":
-            result = add(prevNumber, currentNumber);
-            break;
-        case "-":
-            result = subtract(prevNumber, currentNumber);
-            break;
-    }
+    let result = calculate();
 
     display.innerText = result;
-
     prevNumber = result;
-    currentNumber = "";
+    currentNumber = null;
+}
+
+function calculate(){
+    switch (operator) {
+        case "x":
+            return multiply(prevNumber, currentNumber);
+        case "/":
+            return divide(prevNumber, currentNumber);
+        case "+":
+            return add(prevNumber, currentNumber);
+        case "-":
+            return subtract(prevNumber, currentNumber);
+    }
 }
 
 function add(a, b) {
