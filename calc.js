@@ -1,6 +1,6 @@
 let currentNumber = null;
 let prevNumber = null;
-let operator = "";
+let operator = null;
 
 const display = document.querySelector('.display');
 const numberButtons = document.querySelectorAll('button.num');
@@ -14,24 +14,31 @@ numberButtons.forEach(btn =>
 );
 
 function updateNum(num){
-    if(currentNumber == null) {
-        currentNumber = Number(num);
-        return;
-    }
-    const newNum = currentNumber += num;
-    currentNumber = Number(newNum);
+    currentNumber = !currentNumber ? 
+        Number(num) : 
+        Number(currentNumber += num);
 }
 
 operandButtons.forEach(btn => 
     btn.addEventListener('click', () => {
-        operator = btn.innerText;
-        operate();
+
+        if(!operator) {
+            operator = btn.innerText;
+            operate();
+        }
+        else {
+            operate();
+            operator = btn.innerText;
+        }
+
+        btn.classList.add('active');
     })
 )
 
 document.querySelector('button.clear').addEventListener("click", () => {
     currentNumber = null;
     prevNumber = null;
+    operator = null;
     display.innerText = "0";
 });
 
@@ -42,7 +49,7 @@ document.querySelector('button.equals').addEventListener("click", () => {
 
 function operate() {
 
-    if (operator == "" || currentNumber == null) return;
+    if (!operator || !currentNumber) return;
 
     if(prevNumber == null) {
         prevNumber = currentNumber;
@@ -55,7 +62,10 @@ function operate() {
     display.innerText = result;
     prevNumber = result;
     currentNumber = null;
+    operator = null;
+    document.querySelector('button.operand.active').classList.remove('active');
 }
+
 
 function calculate(){
     switch (operator) {

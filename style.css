@@ -52,4 +52,9 @@ button {
     border: 1px solid black;
     border-radius: 8px;
     border:0;
+    transition: 0.2s;
+    background-color: #eee;
+}
+button.operand.active {
+    background-color: #ccc;
 }
