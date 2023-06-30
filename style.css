@@ -26,25 +26,17 @@ body {
     font-size: 24px;
     align-items: center;
     justify-content: end;
+    font-family: "Roboto Mono"
 }
 
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 80px);
-    grid-template-rows: repeat(4, 80px);
+    grid-template-rows: repeat(5, 60px);
     gap: 4px;
     padding: 8px 0;
 }
 
-.numbers {
-    display:grid;
-    grid-template-columns: repeat(3, 80px);
-    grid-template-rows: repeat(3, 80px);
-    grid-column: 1 / 4;
-    grid-row: 1 / 4;
-    gap: 4px;
-
-}
 
 button {
     font-size: 18px;
@@ -55,6 +47,17 @@ button {
     transition: 0.2s;
     background-color: #eee;
 }
+
+button.double {
+    grid-column: span 2 / span 2;
+}
+button.triple {
+    grid-column: span 3 / span 3;
+}
+
 button.operand.active {
-    background-color: #ccc;
+    background-color: #BBB;
+}
+button.operand, button.equals {
+    background-color: #DDD;
 }
